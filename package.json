@@ -1,0 +1,30 @@
+{
+  "name": "graphql-server-book-search-engine",
+  "version": "1.0.0",
+  "description": "MERN-Book-Search-Engine",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "compile": "tsc",
+    "start": "npm run compile && node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noIDEA-tech/graphql-server-Book-Search-Engine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noIDEA-tech/graphql-server-Book-Search-Engine/issues"
+  },
+  "homepage": "https://github.com/noIDEA-tech/graphql-server-Book-Search-Engine#readme",
+  "dependencies": {
+    "@apollo/server": "^4.11.3",
+    "graphql": "^16.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "typescript": "^5.7.3"
+  }
+}
