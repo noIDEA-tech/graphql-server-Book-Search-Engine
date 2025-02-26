@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
+import { useMutation  } from '@apollo/client';
 
-import { createUser } from '../utils/API';
+import { ADD_USER } from '../utils/graphql-operations';
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
-const SignupForm = ({}: { handleModalClose: () => void }) => {
+const SignupForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
   // set initial form state
   const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
   // set state for form validation
@@ -15,6 +16,9 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
+  //use Apollo userMutation hook
+  const [addUser, { error }] = useMutation(ADD_USER);
+  
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -29,21 +33,27 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
       event.preventDefault();
       event.stopPropagation();
     }
-
     try {
-      const response = await createUser(userFormData);
+      //execute addUser mutation with form data
+      const { data } = await addUser({
+        variables: {
+          username: userFormData.username,
+          email: userFormData.email,
+          password: userFormData.password,
+        }
+      });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token } = await response.json();
+      //get token from mutation result
+      const { token } = data.addUser;
       Auth.login(token);
+
+      //close modal afeter successful signup
+      handleModalClose();
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
-
+     
     setUserFormData({
       username: '',
       email: '',
