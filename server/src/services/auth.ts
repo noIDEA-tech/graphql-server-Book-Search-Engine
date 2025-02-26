@@ -31,6 +31,26 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   }
 };
 
+export const authMiddleware = async ({ req }: { req: Request }) => {
+  //get token from headers
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    const secretKey = process.env.JWT_SECRET_KEY || '';
+
+    //verify token and get user data
+    try {
+      const { data } = jwt.verify(token, secretKey, { maxAge: '1' }) as { data: JwtPayload };
+      return { user: data };
+    } catch (err) {
+      console.log('Invalid token');
+    }
+  }
+  //return empty object if no token or invalid
+  return { user: null };
+};
+
 export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id };
   const secretKey = process.env.JWT_SECRET_KEY || '';
