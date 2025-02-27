@@ -10,7 +10,6 @@ const authLink = setContext((_, { headers }) => {
     
     const token = Auth.getToken();
 
-    //return headers to context so httpLink can read them
     return {
         headers: {
            ...headers,
@@ -19,7 +18,6 @@ const authLink = setContext((_, { headers }) => {
       };
     });
 
- //create Apollo Client instance
 const client = new ApolloClient({
     link: from([authLink, httpLink]),
     cache: new InMemoryCache()
