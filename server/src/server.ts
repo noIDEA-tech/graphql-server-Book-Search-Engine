@@ -1,3 +1,4 @@
+console.log('Starting server initialization...');
 import express from 'express';
 import path from 'path';
 import { ApolloServer } from '@apollo/server';
@@ -10,39 +11,61 @@ import cors from 'cors';
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// Create a new Apollo server with schema
+// Create Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
-// Start the Apollo server
+// Add a timeout to detect if the DB connection is hanging
+setTimeout(() => {
+  console.log('WARNING: MongoDB connection has not completed after 5 seconds');
+}, 5000);
+
+// Start Apollo Server and Express
 const startApolloServer = async () => {
-  await server.start();
+  try {
+    await server.start();
+    console.log('Apollo Server started successfully');
 
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
+    // Setup Express middleware
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
 
-  app.use('/graphql', cors(), expressMiddleware(server, {
-    context: authMiddleware
-  }));
+    // Setup GraphQL endpoint
+    app.use('/graphql', cors(), expressMiddleware(server, {
+      context: authMiddleware
+    }));
 
-  // if we're in production, serve client/build as static assets
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
+    // Production static assets
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static(path.join(__dirname, '../client/build')));
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+      });
+    }
 
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    console.log('Attempting to connect to MongoDB...');
+
+    // Start the server regardless of DB connection
+    const httpServer = app.listen(PORT, () => {
+      console.log(`🌍 Server now running on localhost:${PORT}`);
+      console.log(`🚀 GraphQL endpoint available at http://localhost:${PORT}/graphql`);
     });
+
+    // Setup MongoDB connection
+    db.once('open', () => {
+      console.log('✅ Connected to MongoDB successfully');
+    });
+
+    db.on('error', (err) => {
+      console.error('❌ MongoDB connection error:', err);
+    });
+
+  } catch (error) {
+    console.error('❌ Server startup error:', error);
   }
-
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`🌍 Now listening on localhost:${PORT}`);
-      console.log(`🚀 GraphQL at http://localhost:${PORT}/graphql`);
-    });
-  });
 };
 
-// Call async function to start server
+// Start the server
 startApolloServer();

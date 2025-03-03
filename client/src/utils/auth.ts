@@ -1,6 +1,15 @@
 // use this to decode a token and get the user's information out of it
 import { jwtDecode } from 'jwt-decode';
 
+//TEST COMMENTED OUT CODE FROM ACT 23-INS-AUTHENTICATION
+// interface ExtendedJwt extends JwtPayload {
+//   data:{
+//     username:string,
+//     email:string,
+//     _id:string
+//   }
+// };
+
 interface UserToken {
   name: string;
   exp: number;

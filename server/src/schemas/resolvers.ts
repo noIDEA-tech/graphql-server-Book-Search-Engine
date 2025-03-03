@@ -21,10 +21,17 @@ const resolvers = {
   
   Mutation: {
     // Create a user, sign a token, and send it back
-    addUser: async (_parent: unknown, args: { username: string; email: string; password: string }) => {
-      const user = await User.create(args);
-      const token = signToken(user.username, user.email, user._id);
-      return { token, user };
+    addUser: async (_parent: unknown, args: { username: string; email: string; password: string }) => { 
+      try {
+        console.log('Adding user with args:', args);
+        const user = await User.create(args); 
+        console.log('User created successfully:', user._id);
+        const token = signToken(user.username, user.email, user._id); 
+        return { token, user }; 
+      } catch (err) {
+        console.error('Error creating user:', err);
+        throw err;
+      }
     },
 
     // Login a user, sign a token, and send it back
