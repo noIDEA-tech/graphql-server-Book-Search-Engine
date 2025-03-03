@@ -53,7 +53,6 @@ const SavedBooks = () => {
   // Get user data from the query results (or an empty object if still loading)
   const userData = data?.me || {};
 
-   // Debug userData REMOVE PRIOR TO GIT PUSH!!
    console.log('userData:', userData);
    console.log('savedBooks:', userData.savedBooks);
   
