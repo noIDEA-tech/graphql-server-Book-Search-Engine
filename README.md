@@ -9,8 +9,8 @@
 This application is a book search engine which allows users to create a user profile by entering their email address and creating a password in the pop-up modal. Once a profile has been created, users can conduct book searches by entering a book title, author, topic, or other related input into the "Search for book" field and clicking on the "Submit Search" botton. Users can then browse through pages of books with the option to click on "Save this Book!", if they want to add it to their profile. Users may also click on the "See Your Books" link, located on the navigation bar to manage their collection of saved books. They also have the option to delete any book saved in their profile. Upon completing a book search, users may then log out by clicking on the "Logout" function also located on the navigation bar. 
 
 ![app_image](assets/booksearch-login.png)
+![app_image](assets/booksearch-sailing.png)
 ![app_image](assets/booksearch-savebook.png)
-![app_image](assets/booksearch-savedbook.png)
 ![app_image](assets/booksearch-deletebook.png)
 
 ## Table of Contents

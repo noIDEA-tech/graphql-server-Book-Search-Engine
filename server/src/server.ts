@@ -1,4 +1,9 @@
-console.log('Starting server initialization...');
+import { fileURLToPath } from 'url';  //for ES modules
+import { dirname } from 'path';    
+
+const __filename = fileURLToPath(import.meta.url);  
+const __dirname = dirname(__filename);   
+
 import express from 'express';
 import path from 'path';
 import { ApolloServer } from '@apollo/server';
@@ -10,8 +15,7 @@ import cors from 'cors';
 
 const PORT = process.env.PORT || 3001;
 const app = express();
-
-// Create Apollo Server
+ 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -22,7 +26,6 @@ setTimeout(() => {
   console.log('WARNING: MongoDB connection has not completed after 5 seconds');
 }, 5000);
 
-// Start Apollo Server and Express
 const startApolloServer = async () => {
   try {
     await server.start();
@@ -39,9 +42,9 @@ const startApolloServer = async () => {
 
     // Production static assets
     if (process.env.NODE_ENV === 'production') {
-      app.use(express.static(path.join(__dirname, '../client/build')));
+      app.use(express.static(path.join(__dirname, '../client/dist')));
       app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+        res.sendFile(path.join(__dirname, '../client/dist/index.html'));
       });
     }
 
@@ -66,6 +69,5 @@ const startApolloServer = async () => {
     console.error('❌ Server startup error:', error);
   }
 };
-
 // Start the server
 startApolloServer();
