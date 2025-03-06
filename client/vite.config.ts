@@ -1,8 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
+  root: path.resolve(__dirname),
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),  //added march 6 to ensure Vite resolves paths relative to project root
+    },
+  },
   server: {
     port: 3000,
     open: true,
@@ -10,16 +17,17 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3001',
         secure: false,
-        changeOrigin: true
+        changeOrigin: true,
       },
-      '/graphql': {  
+      '/graphql': {
         target: 'http://localhost:3001',
         secure: false,
-        changeOrigin: true
-      }
-    }
-  }
+        changeOrigin: true,
+      },
+    },
+  },
 });
+
 
 
 
