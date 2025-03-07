@@ -5,11 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npx vite build",
+    "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "postinstall": "npm link vite"
-  },
+    "preview": "vite preview"
+    },
   "dependencies": {
     "@apollo/client": "^3.13.1",
     "bootstrap": "^5.2.3",
