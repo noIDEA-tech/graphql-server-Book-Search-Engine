@@ -17,7 +17,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
-    const secretKey = process.env.JWT_SECRET_KEY || '';
+    const secretKey = process.env.JWT_SECRET_KEY || 'testsecret';
 
     jwt.verify(token, secretKey, (err, user) => {
       if (err) {
@@ -39,7 +39,7 @@ export const authMiddleware = async ({ req }: { req: Request }) => {
   
   if (authHeader) {
     const token = authHeader.split(' ')[1];
-    const secretKey = process.env.JWT_SECRET_KEY || '';
+    const secretKey = process.env.JWT_SECRET_KEY || 'testsecret';
 
     // Verify token and get user data
     try {
@@ -56,7 +56,7 @@ export const authMiddleware = async ({ req }: { req: Request }) => {
 
 export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id };
-  const secretKey = process.env.JWT_SECRET_KEY || '';
+  const secretKey = process.env.JWT_SECRET_KEY || 'testsecret';
 
   return jwt.sign({ data: payload }, secretKey, { expiresIn: '1h' });
 };
