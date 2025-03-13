@@ -2,8 +2,8 @@
 ![MIT](https://img.shields.io/badge/License-MIT-blue)
 
 ## Website Links: 
-- [github]https://github.com/noIDEA-tech/graphql-server-Book-Search-Engine
-- [website]https://graphql-server-book-search-engine.onrender.com
+- [github](https://github.com/noIDEA-tech/graphql-server-Book-Search-Engine)
+- [website](https://graphql-server-book-search-engine.onrender.com)
 
 ## Description
 This application is a book search engine which allows users to create a user profile by entering their email address and creating a password in the pop-up modal. Once a profile has been created, users can conduct book searches by entering a book title, author, topic, or other related input into the "Search for book" field and clicking on the "Submit Search" botton. Users can then browse through pages of books with the option to click on "Save this Book!", if they want to add it to their profile. Users may also click on the "See Your Books" link, located on the navigation bar to manage their collection of saved books. They also have the option to delete any book saved in their profile. Upon completing a book search, users may then log out by clicking on the "Logout" function also located on the navigation bar. 
